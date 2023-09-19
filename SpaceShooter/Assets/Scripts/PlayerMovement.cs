@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
     private bool IsDragging = false;
 
-    private Rigidbody2D rigidbody2d;
+    private new Rigidbody2D rigidbody2D;
     private float dragSpeed = 10f;
 
     private void Awake()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     private void MouseUpDown()
@@ -27,15 +28,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        MouseUpDown();
-
         if (IsDragging)
         {
             var newPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            rigidbody2d.transform.position = Vector3.Lerp(rigidbody2d.transform.position, newPos, dragSpeed * Time.deltaTime);
-            //rigidbody2d.transform.position = new Vector3(newPos.x, newPos.y, rigidbody2d.transform.position.z);
+            newPos.z = rigidbody2D.transform.position.z;
+            rigidbody2D.transform.position = Vector3.Lerp(rigidbody2D.transform.position, newPos, dragSpeed * Time.deltaTime);
+            //rigidbody2D.transform.position = new Vector3(newPos.x, newPos.y, rigidbody2D.transform.position.z);
         }
+    }
+
+    private void Update()
+    {
+        MouseUpDown();
     }
 }
