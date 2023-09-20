@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
     {
         if(who == Owner.Player)
         {
-            if(collision.CompareTag("Enemy"))
+            if(collision.CompareTag("Enemy") && (collision.transform.position.y < 5f))
             {
                 collision.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
                 Destroy(gameObject);

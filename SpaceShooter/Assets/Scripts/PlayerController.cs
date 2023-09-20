@@ -79,6 +79,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void PowerUp(int num)
+    {
+        launchItem += num;
+    }
+
     private IEnumerator ShootProjectiles()
     {
         while (currentBullet > 0)

@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
+using TMPro.Examples;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.WSA;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,17 +21,21 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             gameOverText.SetActive(false);
+            AddScore(score);
         }
         else
         {
             Debug.LogWarning("GameManager instance already exists, destroying this one.");
             Destroy(gameObject);
-            AddScore(score);
         }
+    }
+
+    private void Start()
+    {
     }
 
     private void Update()
@@ -44,16 +51,17 @@ public class GameManager : MonoBehaviour
         if (IsGameOver)
             return;
         score += newScore;
-        scoreText.text = $"SCORE : {AddZeroToDigit2(score)}";
+        scoreText.text = $"SCORE : {score:D3}";
     }
     
     public void OnPlayerDie()
     {
         IsGameOver = true;
+        AddScore(0);
         gameOverText.SetActive(true);
     }
 
-    public static string AddZeroToDigit2(int number)
+    public string AddZeroToDigit2(int number)
     {
         StringBuilder addZero = new StringBuilder();
         if(number < 10)
