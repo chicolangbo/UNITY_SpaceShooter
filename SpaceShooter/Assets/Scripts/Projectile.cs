@@ -36,6 +36,7 @@ public class Projectile : MonoBehaviour
             {
                 collision.SendMessage("TakeDamage", damage, SendMessageOptions.DontRequireReceiver);
                 Destroy(gameObject);
+                GameManager.Instance.AddScore(1);
             }
         }
         else
